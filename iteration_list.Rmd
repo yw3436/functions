@@ -1,0 +1,113 @@
+---
+title: "Iteration and List Columns"
+author: Yuqi Wang
+output: github_document
+---
+
+```{r}
+library(tidyverse)
+library(rvest)
+
+knitr::opts_chunk$set(
+  fig.width = 6,
+  fig.asp = .6,
+  out.width = "90%"
+)
+
+theme_set(theme_minimal() + theme(legend.position = "bottom"))
+
+options(
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis"
+)
+
+scale_colour_discrete = scale_colour_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
+```
+
+## Lists
+
+You can put anything in a list
+```{r}
+l = list(
+vec_numeric = 5:8,
+vec_char = c("My", "name", "is", "Jeff"),
+vec_logical = c(TRUE, TRUE, TRUE, FALSE),
+mat = matrix(1:8, nrow = 2, ncol = 4),
+summary = summary(rnorm(100))
+)
+```
+
+```{r}
+l$vec_numeric
+l[[1]]
+l[["vec_numeric"]]
+mean(l[["vec_numeric"]])
+
+```
+
+
+## `for` loop
+
+create a new list.
+```{r}
+list_norms = 
+  list(
+    a = rnorm(20, 3, 1),
+    b = rnorm(20, 0, 5),
+    c = rnorm(20, 10, .2),
+    d = rnorm(20, -3, 1)
+  )
+
+is.list(list_norms)
+```
+
+```{r}
+list_norms
+```
+
+Pause and get the old function.
+
+```{r}
+mean_and_sd = function(x) {
+  
+  if (!is.numeric(x)) {
+    stop("Argument x should be numeric")
+  } else if (length(x) == 1) {
+    stop("Cannot be computed for length 1 vectors")
+  }
+  
+  mean_x = mean(x)
+  sd_x = sd(x)
+
+  tibble(
+    mean = mean_x, 
+    sd = sd_x
+  )
+}
+```
+
+I can apply the function to each list element.
+
+```{r}
+mean_and_sd(list_norms[[1]])
+mean_and_sd(list_norms[[2]])
+mean_and_sd(list_norms[[3]])
+mean_and_sd(list_norms[[4]])
+```
+
+Let's use a for loop:
+
+```{r}
+output = vector("list", length = 4)
+
+for (i in 1:4) {
+  output[[i]] = mean_and_sd(list_norms[[i]])
+}
+```
+
+
+
+
+
+
