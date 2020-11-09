@@ -60,11 +60,11 @@ x_vec = rnorm(25, mean = 5, sd = 3)
 (x_vec - mean(x_vec)) / sd(x_vec)
 ```
 
-    ##  [1] -0.23176701 -1.86220443  0.95582378  0.29340488 -0.04674614 -0.51181642
-    ##  [7]  0.63360925  0.95710878 -0.68721186  1.46618645 -1.55104631 -0.85964824
-    ## [13]  1.17634084  0.08717605  2.20489441  0.02105874  0.42004682  0.69180079
-    ## [19]  0.10554492 -1.49086105 -0.83577792  0.09949729 -1.46954046  0.10302300
-    ## [25]  0.33110386
+    ##  [1]  0.2350117 -0.1395934 -0.6837305 -0.4599400 -0.6306611 -1.0976819
+    ##  [7] -0.3145792 -1.2964731  0.7968267  0.1081130  2.2944365  0.3984009
+    ## [13] -2.2549599  0.5360374  1.9075366  0.5705936  0.7128807 -0.3777154
+    ## [19]  0.3137426  0.8615680 -1.0817726 -0.4415296 -0.9434430  0.8278972
+    ## [25]  0.1590348
 
 I want a function to compute z-scores
 
@@ -83,11 +83,11 @@ z_scores = function(x) {
 z_scores(x_vec)
 ```
 
-    ##  [1] -0.23176701 -1.86220443  0.95582378  0.29340488 -0.04674614 -0.51181642
-    ##  [7]  0.63360925  0.95710878 -0.68721186  1.46618645 -1.55104631 -0.85964824
-    ## [13]  1.17634084  0.08717605  2.20489441  0.02105874  0.42004682  0.69180079
-    ## [19]  0.10554492 -1.49086105 -0.83577792  0.09949729 -1.46954046  0.10302300
-    ## [25]  0.33110386
+    ##  [1]  0.2350117 -0.1395934 -0.6837305 -0.4599400 -0.6306611 -1.0976819
+    ##  [7] -0.3145792 -1.2964731  0.7968267  0.1081130  2.2944365  0.3984009
+    ## [13] -2.2549599  0.5360374  1.9075366  0.5705936  0.7128807 -0.3777154
+    ## [19]  0.3137426  0.8615680 -1.0817726 -0.4415296 -0.9434430  0.8278972
+    ## [25]  0.1590348
 
 ``` r
 # tell z_scores that we will use x_vec for calculation
@@ -151,7 +151,7 @@ mean_and_sd(x_vec)
     ## # A tibble: 1 x 2
     ##     mean  sd_x
     ##    <dbl> <dbl>
-    ## 1 0.0180 0.998
+    ## 1 0.0515 0.974
 
 ## multiple inputs
 
@@ -173,7 +173,7 @@ sim_data %>%
     ## # A tibble: 1 x 2
     ##    mean    sd
     ##   <dbl> <dbl>
-    ## 1  4.32  3.05
+    ## 1  4.61  3.23
 
 ``` r
 sim_mean_sd = function(samp_size, mu = 3, sigma = 3) {
@@ -196,7 +196,7 @@ sim_mean_sd(samp_size = 100, mu = 6, sigma = 3) # if we don't specify what 100 i
     ## # A tibble: 1 x 2
     ##    mean    sd
     ##   <dbl> <dbl>
-    ## 1  5.49  3.23
+    ## 1  6.11  3.32
 
 ``` r
 sim_mean_sd(samp_size = 100, sigma = 3, mu = 6)
@@ -205,7 +205,7 @@ sim_mean_sd(samp_size = 100, sigma = 3, mu = 6)
     ## # A tibble: 1 x 2
     ##    mean    sd
     ##   <dbl> <dbl>
-    ## 1  6.32  2.65
+    ## 1  6.06  2.82
 
 ``` r
 sim_mean_sd(samp_size = 100)
@@ -214,7 +214,7 @@ sim_mean_sd(samp_size = 100)
     ## # A tibble: 1 x 2
     ##    mean    sd
     ##   <dbl> <dbl>
-    ## 1  3.23  3.03
+    ## 1  2.68  3.08
 
 ## let’s review Napoleon Dynamite
 
@@ -309,7 +309,7 @@ read_page_reviews(dynamite_url)
 Let’s read a few pages of reviews
 
 ``` r
-dynamite_url_base = url = "https://www.amazon.com/product-reviews/B00005JNBQ/ref=cm_cr_arp_d_viewopt_rvwer?ie=UTF8&reviewerType=avp_only_reviews&sortBy=recent&pageNumber="
+dynamite_url_base = "https://www.amazon.com/product-reviews/B00005JNBQ/ref=cm_cr_arp_d_viewopt_rvwer?ie=UTF8&reviewerType=avp_only_reviews&sortBy=recent&pageNumber="
 
 dynamite_urls = str_c(dynamite_url_base, 1:5)
 
@@ -326,4 +326,24 @@ read_page_reviews(dynamite_urls[3]),
 read_page_reviews(dynamite_urls[4]),
 read_page_reviews(dynamite_urls[5])
 )
+```
+
+## Mean scoping example
+
+``` r
+f = function(x){
+  z = x + y
+  z
+}
+
+x = 1
+y = 2
+
+f(x = y)
+```
+
+    ## [1] 4
+
+``` r
+# Give x the value of y
 ```
