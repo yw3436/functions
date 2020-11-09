@@ -49,10 +49,10 @@ z_scores = function(x) {
 }
 
 z_scores(x_vec)
-# tell z_score that we will use x_vec for calculation
+# tell z_scores that we will use x_vec for calculation
 ```
 
-Try my function on some other things
+Try my function on some other things, these should be errors
 
 ```{r, error = TRUE}
 z_scores(3) # the result is NA because sd(3) is meaningless
@@ -62,6 +62,76 @@ z_scores(c(TRUE, TRUE, FALSE, TRUE)) # this works but meaningless
 ```
 
 so we nned ot update the function by adding if()
+
+## multiple outputs
+
+```{r}
+mean_and_sd = function(x) {
+  if(!is.numeric(x)){
+    stop("Input must be numeric")
+  }
+  if(length(x) < 3) {
+    stop("Input must have at least 3 numbers")
+  }
+  mean_x = mean(x)
+  sd_x = sd(x)
+  tibble(
+    mean = mean_x,
+    sd_x = sd_x
+  )
+}
+## for the tibble(), can also use list
+```
+
+Check that the function works
+
+```{r}
+x_vec = rnorm(1000)
+mean_and_sd(x_vec)
+```
+
+
+## multiple inputs
+
+I'd like to do this with a function.
+
+```{r}
+sim_data = 
+  tibble(
+    x = rnorm(100, mean = 4, sd = 3)
+  )
+
+sim_data %>% 
+  summarize(
+    mean = mean(x),
+    sd = sd(x)
+  )
+
+
+```
+
+```{r}
+sim_mean_sd = function(samp_size, mu = 3, sigma = 3) {
+  # here, we set default value that mu = 3 and sigma = 3 if the user didn't input anything.
+  sim_data = 
+  tibble(
+    x = rnorm(samp_size, mean = mu, sd = sigma)
+  )
+
+  sim_data %>% 
+    summarize(
+      mean = mean(x),
+     sd = sd(x)
+   )
+}
+
+sim_mean_sd(samp_size = 100, mu = 6, sigma = 3) # if we don't specify what 100 is, the r will by default think this is the first thing we input, that is, the sample size
+sim_mean_sd(samp_size = 100, sigma = 3, mu = 6)
+sim_mean_sd(samp_size = 100)
+```
+
+
+
 
 
 
